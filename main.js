@@ -163,12 +163,10 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("clearAll").addEventListener("click", clearAllInputs);
 
   document.getElementById("copySuggestedPrice").addEventListener("click", () => {
-    const value = document.getElementById("suggestedPrice").textContent;
-    navigator.clipboard.writeText(value);
+    copyPriceValue({ spanId: "suggestedPrice", buttonId: "copySuggestedPrice" });
   });
 
   document.getElementById("copyDiscountedPrice").addEventListener("click", () => {
-    const value = document.getElementById("discountedPrice").textContent;
-    navigator.clipboard.writeText(value);
+    copyPriceValue({ spanId: "discountedPrice", buttonId: "copyDiscountedPrice" });
   });
 });
