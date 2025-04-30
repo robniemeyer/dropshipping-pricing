@@ -7,6 +7,7 @@
   border: 0;
   box-sizing: border-box;
   color: inherit;
+  font-family: inherit;
   font-size: inherit;
   font-weight: inherit;
   line-height: inherit;
@@ -42,7 +43,6 @@ body {
   color: var(--text-color);
   font-family: var(--font-family);
   font-size: 1rem;
-  font-family: sans-serif;
   font-weight: 400;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -92,8 +92,18 @@ body {
   line-height: var(--line-height-s);
 }
 
-.form__group {
-  margin-bottom: 1rem;
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.flex {
+  display: flex;
+  gap: 1rem;
+}
+
+.flex--column {
+  flex-direction: column;
 }
 
 .label {
@@ -126,11 +136,29 @@ input:focus {
   padding: 1rem;
 }
 
-.grid {
-  display: grid;
-  gap: 1rem;
+.button {
+  cursor: pointer;
+  padding: 0.5rem 0;
+  transition: var(--transition);
 }
 
+.button:hover {
+  opacity: 0.875;
+}
+
+.button--light {
+  background-color: var(--background-color-2);
+  border: 1px solid var(--border-color-2);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-s);
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+}
+
+.button .material-icons {
+  color: var(--background-color);
+  font-size: 1rem;
+}
 .card {
   background-color: var(--card-background-color);
   border-radius: var(--border-radius);
@@ -164,21 +192,6 @@ input:focus {
 .card--secondary .card__header,
 .card--secondary .card__footer {
   color: var(--text-color-2);
-}
-
-.button {
-  cursor: pointer;
-  padding: 0.5rem 0;
-  transition: var(--transition);
-}
-
-.button:hover {
-  opacity: 0.875;
-}
-
-.button .material-icons {
-  color: var(--background-color);
-  font-size: 1rem;
 }
 
 .footer {

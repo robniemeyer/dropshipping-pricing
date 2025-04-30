@@ -18,40 +18,49 @@
     </header>
     <main>
       <div class="container grid">
-        <section id="form" role="region" aria-labelledby="form-title">
+        <section id="form" class="flex flex--column" role="region" aria-labelledby="form-title">
           <h2 id="form-title" class="sr-only">Formulário de Entrada de Custos</h2>
           <div class="form__group">
             <label for="productCost" class="label">Custo de Aquisição do Produto ($)</label>
-            <input id="productCost" class="input" type="number" value="0.00" min="0" step="0.01" />
+            <input id="productCost" class="input" type="number" value="50.00" min="0" step="0.01" placeholder="Ex: 50.00" />
           </div>
           <div class="form__group">
             <label for="shippingCost" class="label">Frete Estimado ($)</label>
-            <input id="shippingCost" class="input" type="number" value="0.00" min="0" step="0.01" />
+            <input id="shippingCost" class="input" type="number" value="10.00" min="0" step="0.01" placeholder="Ex: 10.00" />
           </div>
           <div class="form__group">
             <label for="marketingCost" class="label">Custo de Marketing ($)</label>
-            <input id="marketingCost" class="input" type="number" value="0.00" min="0" step="0.01" />
+            <input id="marketingCost" class="input" type="number" value="30.00" min="0" step="0.01" placeholder="Ex: 30.00" />
+          </div>
+          <div class="form__group">
+            <label for="otherCosts" class="label">Outros Custos ($)</label>
+            <input id="otherCosts" class="input" type="number" value="0.00" min="0" step="0.01" placeholder="Ex: 0.00" />
           </div>
           <div class="form__group">
             <label for="platformFeeRate" class="label">Taxa da Plataforma (%)</label>
-            <input id="platformFeeRate" class="input" type="number" value="0" min="0" step="1" />
+            <input id="platformFeeRate" class="input" type="number" value="2" min="0" step="1" placeholder="Ex: 2" />
           </div>
           <div class="form__group">
             <label for="paymentFeeRate" class="label">Taxa de Pagamento (%)</label>
-            <input id="paymentFeeRate" class="input" type="number" value="0" min="0" step="1" />
+            <input id="paymentFeeRate" class="input" type="number" value="5" min="0" step="1" placeholder="Ex: 5" />
+          </div>
+          <div class="form__group">
+            <label for="otherFeeRate" class="label">Outras Taxas (%)</label>
+            <input id="otherFeeRate" class="input" type="number" value="0" min="0" step="1" placeholder="Ex: 0" />
           </div>
           <div class="form__group">
             <label for="taxRate" class="label">Imposto sobre Venda (%)</label>
-            <input id="taxRate" class="input" type="number" value="0" min="0" step="1" />
+            <input id="taxRate" class="input" type="number" value="30" min="0" step="1" placeholder="Ex: 30" />
           </div>
           <div class="form__group">
             <label for="profitMargin" class="label">Margem de Lucro Alvo (%)</label>
-            <input id="profitMargin" class="input" type="number" value="0" min="0" step="1" />
+            <input id="profitMargin" class="input" type="number" value="60" min="0" step="1" placeholder="Ex: 60" />
           </div>
           <div class="form__group">
             <label for="discountRate" class="label">Desconto Promocional (%)</label>
-            <input id="discountRate" class="input" type="number" value="0" min="0" step="1" />
+            <input id="discountRate" class="input" type="number" value="10" min="0" step="1" placeholder="Ex: 10" />
           </div>
+          <button id="clearAll" class="button button--light">Limpar</button>
         </section>
 
         <section role="region" aria-labelledby="results-title">

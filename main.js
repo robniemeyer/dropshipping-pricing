@@ -2,16 +2,17 @@
 // Core Calculation Methods
 // ========================
 
-function getTotalCost(productCost, shippingCost, marketingCost) {
-  return productCost + shippingCost + marketingCost;
+function getTotalCost(productCost, shippingCost, marketingCost, otherCosts) {
+  return productCost + shippingCost + marketingCost + otherCosts;
 }
 
 function getSuggestedPrice(baseCost, profitMarginRate) {
   const platformFeeRate = parseFloat(document.getElementById("platformFeeRate").value) / 100 || 0;
   const paymentFeeRate = parseFloat(document.getElementById("paymentFeeRate").value) / 100 || 0;
+  const otherFeeRate = parseFloat(document.getElementById("otherFeeRate").value) / 100 || 0;
   const taxRate = parseFloat(document.getElementById("taxRate").value) / 100 || 0;
 
-  const totalFeeRate = platformFeeRate + paymentFeeRate + taxRate;
+  const totalFeeRate = platformFeeRate + paymentFeeRate + otherFeeRate + taxRate;
   const revenueFraction = 1 - totalFeeRate;
 
   if (revenueFraction <= 0) return 0;
@@ -32,12 +33,16 @@ function getPaymentFee(price, paymentFeeRate) {
   return price * paymentFeeRate;
 }
 
+function getOtherFee(price, otherFeeRate) {
+  return price * otherFeeRate;
+}
+
 function getTax(price, taxRate) {
   return price * taxRate;
 }
 
-function getNetProfit(price, productCost, shippingCost, marketingCost, platformFee, paymentFee, tax) {
-  return price - (productCost + shippingCost + marketingCost + platformFee + paymentFee + tax);
+function getNetProfit(price, productCost, shippingCost, marketingCost, otherCosts, platformFee, paymentFee, otherFee, tax) {
+  return price - (productCost + shippingCost + marketingCost + otherCosts + platformFee + paymentFee + otherFee + tax);
 }
 
 function getNetMargin(netProfit, finalPrice) {
@@ -74,29 +79,44 @@ function updateUI() {
   const productCost = parseFloat(document.getElementById("productCost").value) || 0;
   const shippingCost = parseFloat(document.getElementById("shippingCost").value) || 0;
   const marketingCost = parseFloat(document.getElementById("marketingCost").value) || 0;
+  const otherCosts = parseFloat(document.getElementById("otherCosts").value) || 0;
+
   const platformFeeRate = parseFloat(document.getElementById("platformFeeRate").value) / 100 || 0;
   const paymentFeeRate = parseFloat(document.getElementById("paymentFeeRate").value) / 100 || 0;
+  const otherFeeRate = parseFloat(document.getElementById("otherFeeRate").value) / 100 || 0;
   const taxRate = parseFloat(document.getElementById("taxRate").value) / 100 || 0;
-  const profitMargin = parseFloat(document.getElementById("profitMargin").value) / 100 || 0;
+  const profitMarginRate = parseFloat(document.getElementById("profitMargin").value) / 100 || 0;
   const discountRate = parseFloat(document.getElementById("discountRate").value) / 100 || 0;
 
-  const totalCost = getTotalCost(productCost, shippingCost, marketingCost);
-  const suggestedPrice = getSuggestedPrice(totalCost, profitMargin);
+  const totalCost = getTotalCost(productCost, shippingCost, marketingCost, otherCosts);
+  const suggestedPrice = getSuggestedPrice(totalCost, profitMarginRate);
   const discountedPrice = getDiscountedPrice(suggestedPrice, discountRate);
 
-  const platformFee = getPlatformFee(discountedPrice, platformFeeRate);
-  const paymentFee = getPaymentFee(discountedPrice, paymentFeeRate);
-  const tax = getTax(discountedPrice, taxRate);
+  const platformFee = getPlatformFee(suggestedPrice, platformFeeRate);
+  const paymentFee = getPaymentFee(suggestedPrice, paymentFeeRate);
+  const otherFee = getOtherFee(suggestedPrice, otherFeeRate);
+  const tax = getTax(suggestedPrice, taxRate);
 
-  const netProfit = getNetProfit(discountedPrice, productCost, shippingCost, marketingCost, platformFee, paymentFee, tax);
-  const netMargin = getNetMargin(netProfit, discountedPrice);
+  const netProfit = getNetProfit(suggestedPrice, productCost, shippingCost, marketingCost, otherCosts, platformFee, paymentFee, otherFee, tax);
+  const netMargin = getNetMargin(netProfit, suggestedPrice);
 
   document.getElementById("suggestedPrice").textContent = suggestedPrice.toFixed(2);
   document.getElementById("discountedPrice").textContent = discountedPrice.toFixed(2);
   document.getElementById("netProfit").textContent = netProfit.toFixed(2);
   document.getElementById("netMargin").textContent = netMargin.toFixed(2);
+}
 
-  saveInputsToStorage();
+// ========================
+// Clear Button Handler
+// ========================
+
+function clearAllInputs() {
+  const inputs = document.querySelectorAll("input");
+  inputs.forEach(input => {
+    input.value = "";
+    localStorage.removeItem(input.id);
+  });
+  updateUI();
 }
 
 // ========================
@@ -125,26 +145,30 @@ function copyPriceValue({ spanId, buttonId }) {
 }
 
 // ========================
-// Event Binding
+// Event Listeners
 // ========================
 
-document.querySelectorAll("input").forEach(input => {
-  input.addEventListener("input", updateUI);
-});
-
-document.getElementById("copySuggestedPrice").addEventListener("click", () => {
-  copyPriceValue({ spanId: "suggestedPrice", buttonId: "copySuggestedPrice" });
-});
-
-document.getElementById("copyDiscountedPrice").addEventListener("click", () => {
-  copyPriceValue({ spanId: "discountedPrice", buttonId: "copyDiscountedPrice" });
-});
-
-// ========================
-// Initialization
-// ========================
-
-window.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
   loadInputsFromStorage();
   updateUI();
+
+  const inputs = document.querySelectorAll("input");
+  inputs.forEach(input => {
+    input.addEventListener("input", () => {
+      updateUI();
+      saveInputsToStorage();
+    });
+  });
+
+  document.getElementById("clearAll").addEventListener("click", clearAllInputs);
+
+  document.getElementById("copySuggestedPrice").addEventListener("click", () => {
+    const value = document.getElementById("suggestedPrice").textContent;
+    navigator.clipboard.writeText(value);
+  });
+
+  document.getElementById("copyDiscountedPrice").addEventListener("click", () => {
+    const value = document.getElementById("discountedPrice").textContent;
+    navigator.clipboard.writeText(value);
+  });
 });
