@@ -36,10 +36,6 @@ function getTax(price, taxRate) {
   return price * taxRate;
 }
 
-function getGrossProfit(price, productCost, shippingCost) {
-  return price - productCost - shippingCost;
-}
-
 function getNetProfit(price, productCost, shippingCost, marketingCost, platformFee, paymentFee, tax) {
   return price - (productCost + shippingCost + marketingCost + platformFee + paymentFee + tax);
 }
@@ -47,11 +43,6 @@ function getNetProfit(price, productCost, shippingCost, marketingCost, platformF
 function getNetMargin(netProfit, finalPrice) {
   if (finalPrice === 0) return 0;
   return (netProfit / finalPrice) * 100;
-}
-
-function getROI(finalPrice, totalCost) {
-  if (totalCost === 0) return 0;
-  return finalPrice / totalCost;
 }
 
 // ========================
@@ -97,17 +88,13 @@ function updateUI() {
   const paymentFee = getPaymentFee(discountedPrice, paymentFeeRate);
   const tax = getTax(discountedPrice, taxRate);
 
-  const grossProfit = getGrossProfit(discountedPrice, productCost, shippingCost);
   const netProfit = getNetProfit(discountedPrice, productCost, shippingCost, marketingCost, platformFee, paymentFee, tax);
   const netMargin = getNetMargin(netProfit, discountedPrice);
-  const roi = getROI(discountedPrice, totalCost);
 
   document.getElementById("suggestedPrice").textContent = suggestedPrice.toFixed(2);
   document.getElementById("discountedPrice").textContent = discountedPrice.toFixed(2);
-  document.getElementById("grossProfit").textContent = grossProfit.toFixed(2);
   document.getElementById("netProfit").textContent = netProfit.toFixed(2);
   document.getElementById("netMargin").textContent = netMargin.toFixed(2);
-  document.getElementById("roi").textContent = roi.toFixed(2);
 
   saveInputsToStorage();
 }
