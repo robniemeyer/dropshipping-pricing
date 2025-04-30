@@ -31,6 +31,7 @@
   --border-color-2: #bbb;
   --card-background-color: #04a;
   --card-background-color-2: #bbb;
+  --transition: 250ms ease-out;
 }
 
 html {
@@ -109,7 +110,14 @@ body {
   font-family: var(--font-family-2);
   font-size: var(--font-size-s);
   padding: 0.5rem;
+  transition: var(--transition);
   width: 100%;
+}
+
+input:focus {
+  border: 1px solid var(--border-color-2);
+  box-shadow: none;
+  outline: none;
 }
 
 #results {
@@ -161,6 +169,11 @@ body {
 .button {
   cursor: pointer;
   padding: 0.5rem 0;
+  transition: var(--transition);
+}
+
+.button:hover {
+  opacity: 0.875;
 }
 
 .button .material-icons {
