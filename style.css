@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
 
 *,
 ::after,
@@ -6,6 +6,7 @@
   background-color: inherit;
   border: 0;
   box-sizing: border-box;
+  color: inherit;
   font-size: inherit;
   font-weight: inherit;
   line-height: inherit;
@@ -15,10 +16,30 @@
 
 :root {
   --border-radius: 0.25rem;
+  --background-color: #fff;
+  --background-color-2: #ddd;
+  --text-color: #222;
+  --text-color-2: #444;
+  --font-family: "Inter", sans-serif;
+  --font-family-2: "JetBrains Mono", monospace;
+  --font-size-2xl: 2rem;
+  --font-size-xl: 1.5rem;
+  --font-size-l: 1.15rem;
+  --font-size-s: 0.875rem;
+  --line-height-s: 1.15;
+  --border-color: #ddd;
+  --border-color-2: #bbb;
+  --card-background-color: #04a;
+  --card-background-color-2: #bbb;
+}
+
+html {
+  font-size: 18px;
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  color: var(--text-color);
+  font-family: var(--font-family);
   font-size: 1rem;
   font-family: sans-serif;
   font-weight: 400;
@@ -28,7 +49,9 @@ body {
 }
 
 .header {
-  margin: 1rem 0;
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 0;
+  margin-bottom: 1rem;
 }
 
 .container {
@@ -38,9 +61,9 @@ body {
 }
 
 .h1 {
-  font-size: 2rem;
+  font-size: var(--font-size-2xl);
   font-weight: 700;
-  line-height: 1.15;
+  line-height: var(--line-height-s);
 }
 
 .sr-only {
@@ -56,16 +79,16 @@ body {
 }
 
 .h2 {
-  font-size: 1.5rem;
+  font-size: var(--font-size-xl);
   font-weight: bold;
-  line-height: 1.15;
+  line-height: var(--line-height-s);
 }
 
 .h3 {
   font-family: monospace;
-  font-size: 1.15rem;
+  font-size: var(--font-size-l);
   font-weight: bold;
-  line-height: 1.15;
+  line-height: var(--line-height-s);
 }
 
 .form__group {
@@ -73,24 +96,24 @@ body {
 }
 
 .label {
-  color: #333;
+  color: var(--text-color-2);
   display: block;
-  font-size: 0.875rem;
-  line-height: 1.15;
+  font-size: var(--font-size-s);
+  line-height: var(--line-height-s);
   margin-bottom: 0.25rem;
 }
 
 .input {
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.875rem;
+  font-family: var(--font-family-2);
+  font-size: var(--font-size-s);
   padding: 0.5rem;
   width: 100%;
 }
 
 #results {
-  background-color: #eee;
+  background-color: var(--background-color-2);
   border-radius: var(--border-radius);
   padding: 1rem;
 }
@@ -101,37 +124,38 @@ body {
 }
 
 .card {
-  background-color: #ccc;
+  background-color: var(--card-background-color);
   border-radius: var(--border-radius);
+  color: var(--background-color);
   padding: 1rem;
 }
 
 .card__header {
-  color: #333;
-  font-size: 0.875rem;
+  font-size: var(--font-size-s);
   font-weight: 700;
-  line-height: 1.15;
+  line-height: var(--line-height-s);
   margin-bottom: 0.25rem;
 }
 
 .card__body {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-family-2);
 }
 
 .card__footer {
-  color: #333;
-  font-size: 0.875rem;
+  color: var(--text-color-2);
+  font-size: var(--font-size-s);
   margin-top: 0.5rem;
 }
 
-.card--highlight {
-  background-color: #039;
-  color: #fff;
+.card--secondary {
+  background-color: transparent;
+  border: 1px solid var(--border-color-2);
+  color: inherit;
 }
 
-.card--highlight .card__header,
-.card--highlight .card__footer {
-  color: inherit;
+.card--secondary .card__header,
+.card--secondary .card__footer {
+  color: var(--text-color-2);
 }
 
 .button {
@@ -140,17 +164,18 @@ body {
 }
 
 .button .material-icons {
-  color: #fff;
+  color: var(--background-color);
   font-size: 1rem;
 }
 
 .footer {
-  background-color: #eee;
+  background-color: var(--background-color-2);
+  margin-top: 1rem;
   padding: 1rem 0;
 }
 
 .credits {
-  font-size: 0.875rem;
+  font-size: var(--font-size-s);
 }
 
 @media only screen and (min-width: 768px) {
