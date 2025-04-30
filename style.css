@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+*,
+::after,
+::before {
+  background-color: inherit;
+  border: 0;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --border-radius: 0.25rem;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-family: sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.header {
+  margin: 1rem 0;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0 1rem;
+}
+
+.h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1.15;
+}
+
+.h3 {
+  font-family: monospace;
+  font-size: 1.15rem;
+  font-weight: bold;
+  line-height: 1.15;
+}
+
+.form__group {
+  margin-bottom: 1rem;
+}
+
+.label {
+  color: #333;
+  display: block;
+  font-size: 0.875rem;
+  line-height: 1.15;
+  margin-bottom: 0.25rem;
+}
+
+.input {
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+#results {
+  background-color: #eee;
+  border-radius: var(--border-radius);
+  padding: 1rem;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.card {
+  background-color: #ccc;
+  border-radius: var(--border-radius);
+  padding: 1rem;
+}
+
+.card__header {
+  color: #333;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 0.25rem;
+}
+
+.card__body {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.card__footer {
+  color: #333;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.card--highlight {
+  background-color: #039;
+  color: #fff;
+}
+
+.card--highlight .card__header,
+.card--highlight .card__footer {
+  color: inherit;
+}
+
+.button {
+  cursor: pointer;
+  padding: 0.5rem 0;
+}
+
+.button .material-icons {
+  color: #fff;
+  font-size: 1rem;
+}
+
+.footer {
+  background-color: #eee;
+  padding: 1rem 0;
+}
+
+.credits {
+  font-size: 0.875rem;
+}
+
+@media only screen and (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

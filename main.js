@@ -1,0 +1,163 @@
+// ========================
+// Core Calculation Methods
+// ========================
+
+function getTotalCost(productCost, shippingCost, marketingCost) {
+  return productCost + shippingCost + marketingCost;
+}
+
+function getSuggestedPrice(baseCost, profitMarginRate) {
+  const platformFeeRate = parseFloat(document.getElementById("platformFeeRate").value) / 100 || 0;
+  const paymentFeeRate = parseFloat(document.getElementById("paymentFeeRate").value) / 100 || 0;
+  const taxRate = parseFloat(document.getElementById("taxRate").value) / 100 || 0;
+
+  const totalFeeRate = platformFeeRate + paymentFeeRate + taxRate;
+  const revenueFraction = 1 - totalFeeRate;
+
+  if (revenueFraction <= 0) return 0;
+
+  const desiredRevenue = baseCost * (1 + profitMarginRate);
+  return desiredRevenue / revenueFraction;
+}
+
+function getDiscountedPrice(suggestedPrice, discountRate) {
+  return suggestedPrice * (1 - discountRate);
+}
+
+function getPlatformFee(price, platformFeeRate) {
+  return price * platformFeeRate;
+}
+
+function getPaymentFee(price, paymentFeeRate) {
+  return price * paymentFeeRate;
+}
+
+function getTax(price, taxRate) {
+  return price * taxRate;
+}
+
+function getGrossProfit(price, productCost, shippingCost) {
+  return price - productCost - shippingCost;
+}
+
+function getNetProfit(price, productCost, shippingCost, marketingCost, platformFee, paymentFee, tax) {
+  return price - (productCost + shippingCost + marketingCost + platformFee + paymentFee + tax);
+}
+
+function getNetMargin(netProfit, finalPrice) {
+  if (finalPrice === 0) return 0;
+  return (netProfit / finalPrice) * 100;
+}
+
+function getROI(finalPrice, totalCost) {
+  if (totalCost === 0) return 0;
+  return finalPrice / totalCost;
+}
+
+// ========================
+// Local Storage Handlers
+// ========================
+
+function saveInputsToStorage() {
+  const inputs = document.querySelectorAll("input");
+  inputs.forEach(input => {
+    localStorage.setItem(input.id, input.value);
+  });
+}
+
+function loadInputsFromStorage() {
+  const inputs = document.querySelectorAll("input");
+  inputs.forEach(input => {
+    const savedValue = localStorage.getItem(input.id);
+    if (savedValue !== null) {
+      input.value = savedValue;
+    }
+  });
+}
+
+// ========================
+// DOM Update Handler
+// ========================
+
+function updateUI() {
+  const productCost = parseFloat(document.getElementById("productCost").value) || 0;
+  const shippingCost = parseFloat(document.getElementById("shippingCost").value) || 0;
+  const marketingCost = parseFloat(document.getElementById("marketingCost").value) || 0;
+  const platformFeeRate = parseFloat(document.getElementById("platformFeeRate").value) / 100 || 0;
+  const paymentFeeRate = parseFloat(document.getElementById("paymentFeeRate").value) / 100 || 0;
+  const taxRate = parseFloat(document.getElementById("taxRate").value) / 100 || 0;
+  const profitMargin = parseFloat(document.getElementById("profitMargin").value) / 100 || 0;
+  const discountRate = parseFloat(document.getElementById("discountRate").value) / 100 || 0;
+
+  const totalCost = getTotalCost(productCost, shippingCost, marketingCost);
+  const suggestedPrice = getSuggestedPrice(totalCost, profitMargin);
+  const discountedPrice = getDiscountedPrice(suggestedPrice, discountRate);
+
+  const platformFee = getPlatformFee(discountedPrice, platformFeeRate);
+  const paymentFee = getPaymentFee(discountedPrice, paymentFeeRate);
+  const tax = getTax(discountedPrice, taxRate);
+
+  const grossProfit = getGrossProfit(discountedPrice, productCost, shippingCost);
+  const netProfit = getNetProfit(discountedPrice, productCost, shippingCost, marketingCost, platformFee, paymentFee, tax);
+  const netMargin = getNetMargin(netProfit, discountedPrice);
+  const roi = getROI(discountedPrice, totalCost);
+
+  document.getElementById("suggestedPrice").textContent = suggestedPrice.toFixed(2);
+  document.getElementById("discountedPrice").textContent = discountedPrice.toFixed(2);
+  document.getElementById("grossProfit").textContent = grossProfit.toFixed(2);
+  document.getElementById("netProfit").textContent = netProfit.toFixed(2);
+  document.getElementById("netMargin").textContent = netMargin.toFixed(2);
+  document.getElementById("roi").textContent = roi.toFixed(2);
+
+  saveInputsToStorage();
+}
+
+// ========================
+// Clipboard Copy Handler
+// ========================
+
+function copyPriceValue({ spanId, buttonId }) {
+  const value = parseFloat(document.getElementById(spanId).textContent);
+  if (isNaN(value)) return;
+
+  navigator.clipboard.writeText(value.toFixed(2));
+
+  const button = document.getElementById(buttonId);
+  const icon = button.querySelector(".material-icons");
+
+  if (!icon) return;
+
+  const originalIcon = "content_copy";
+  const successIcon = "check";
+
+  icon.textContent = successIcon;
+
+  setTimeout(() => {
+    icon.textContent = originalIcon;
+  }, 1500);
+}
+
+// ========================
+// Event Binding
+// ========================
+
+document.querySelectorAll("input").forEach(input => {
+  input.addEventListener("input", updateUI);
+});
+
+document.getElementById("copySuggestedPrice").addEventListener("click", () => {
+  copyPriceValue({ spanId: "suggestedPrice", buttonId: "copySuggestedPrice" });
+});
+
+document.getElementById("copyDiscountedPrice").addEventListener("click", () => {
+  copyPriceValue({ spanId: "discountedPrice", buttonId: "copyDiscountedPrice" });
+});
+
+// ========================
+// Initialization
+// ========================
+
+window.addEventListener("DOMContentLoaded", () => {
+  loadInputsFromStorage();
+  updateUI();
+});
